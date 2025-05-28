@@ -1,29 +1,16 @@
 import { createRouter, createWebHistory } from 'vue-router'
-import HomeView from '../views/HomeView.vue'
-import MapView from '../views/MapView.vue'
-import AboutView from '../views/AboutView.vue'
 
 const routes = [
-  {
-    path: '/',
-    name: 'home',
-    component: HomeView
-  },
-  {
-    path: '/map',
-    name: 'map',
-    component: MapView
-  },
-  {
-    path: '/about',
-    name: 'about',
-    component: AboutView
-  }
+  { path: '/', name: 'home', component: () => import('@/views/HomeView.vue') },
+  { path: '/webgis', name: 'webgis', component: () => import('@/views/MapView.vue') },
+  { path: '/methods', name: 'methods', component: () => import('@/views/MethodsView.vue') },
+  { path: '/results', name: 'results', component: () => import('@/views/ResultsView.vue') },
+  { path: '/team', name: 'team', component: () => import('@/views/TeamView.vue') },
+  { path: '/dataset', name: 'dataset', component: () => import('@/views/DatasetView.vue') },
+  { path: '/:catchAll(.*)', redirect: '/' }
 ]
 
-const router = createRouter({
-  history: createWebHistory(process.env.BASE_URL),
+export default createRouter({
+  history: createWebHistory('/'),  // Changed this line
   routes
 })
-
-export default router
