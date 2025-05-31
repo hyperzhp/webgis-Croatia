@@ -9,7 +9,7 @@
                 across Croatia. We produce monthly maps for December 2022, annual averages for 2022,
                 and “annual average difference” maps relative to the 2017–2021 mean.
             </p>
-            <router-link to="/results" class="btn btn-outline-light btn-lg rounded-pill">
+            <router-link to="/methods" class="btn btn-outline-light btn-lg rounded-pill">
                 Get Started
             </router-link>
         </div>
