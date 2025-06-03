@@ -1,108 +1,182 @@
 <template>
-  <section class="team-section py-5">
-    <!-- Section title + intro -->
-    <h2 class="text-center mb-3">Team</h2>
-    <p class="text-center text-muted mb-5">
-      MSc Geoinformatics Engineering students at Politecnico di Milano, currently enrolled in the
-      Geographic Information Systems course. We explore advanced geospatial analysis techniques
-      and their practical applications.
-    </p>
+  <div class="container-fluid croatia-bg">
+    <!-- Header -->
+    <div class="row justify-content-center mb-5">
+      <div class="col-lg-8 text-center">
+        <h1 class="display-4 fw-bold text-white mb-4">Meet Our Team</h1>
+        <p class="lead text-white-50">
+          MSc Geoinformatics Engineering students at Politecnico di Milano
+        </p>
+      </div>
+    </div>
 
-    <!-- Three columns with vertical separators -->
-    <div class="row g-0">
-      <div v-for="(m, i) in members" :key="m.name" class="col-md-4 d-flex flex-column align-items-center px-4"
-        :class="{ 'border-end': i < members.length - 1 }">
-        <h5 class="mb-3">{{ m.name }}</h5>
-        <img :src="m.img" alt="" class="rounded-circle mb-3 team-photo" />
-        <p class="text-muted mb-3 text-center">{{ m.bio }}</p>
-
-        <!-- Social icons as circular images -->
-        <div class="d-flex gap-3 mb-4">
-          <!-- LinkedIn Icon -->
-          <a v-if="m.linkedin" :href="m.linkedin" target="_blank" rel="noopener" class="social-btn">
-            <img src="https://cdn-icons-png.flaticon.com/512/174/174857.png" alt="LinkedIn" class="social-icon" />
-          </a>
-
-          <!-- Email Icon -->
-          <a v-if="m.email" :href="`mailto:${m.email}`" class="social-btn">
-            <img src="https://cdn-icons-png.flaticon.com/512/732/732200.png" alt="Email" class="social-icon" />
-          </a>
+    <!-- Team Cards -->
+    <div class="row justify-content-center g-4 mb-5">
+      <div v-for="member in members" :key="member.id" class="col-lg-4 col-md-6">
+        <div class="team-card">
+          <div class="team-card-inner">
+            <div class="team-card-front glass-card">
+              <img :src="member.avatar" :alt="member.name" class="team-avatar-large mb-4">
+              <h4 class="mb-2 text-center">{{ member.name }}</h4>
+              <p class="text-muted text-center">{{ member.role }}</p>
+            </div>
+            <div class="team-card-back glass-card-dark">
+              <h5 class="text-white mb-3 text-center">About {{ member.name.split(' ')[0] }}</h5>
+              <p class="text-white-50 mb-4 text-center">{{ member.bio }}</p>
+              <div class="team-social-links">
+                <a v-if="member.email" :href="`mailto:${member.email}`" class="btn btn-outline-light btn-sm me-2"
+                  :title="`Email ${member.name}`">
+                  <i class="fas fa-envelope me-1"></i>
+                  Email
+                </a>
+                <a v-if="member.linkedin" :href="member.linkedin" target="_blank"
+                  class="btn btn-outline-light btn-sm me-2" :title="`${member.name} on LinkedIn`">
+                  <i class="fab fa-linkedin-in me-1"></i>
+                  LinkedIn
+                </a>
+                <a v-if="member.github" :href="member.github" target="_blank" class="btn btn-outline-light btn-sm"
+                  :title="`${member.name} on GitHub`">
+                  <i class="fab fa-github me-1"></i>
+                  GitHub
+                </a>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </div>
-  </section>
+
+    <!-- Project Info -->
+    <div class="row justify-content-center">
+      <div class="col-lg-8">
+        <div class="glass-card">
+          <div class="card-body p-4">
+            <div class="d-flex align-items-center mb-3">
+              <i class="fas fa-globe-europe text-white fs-3 me-3"></i>
+              <h3 class="text-white mb-0">Croatia WebGIS Project</h3>
+            </div>
+            <p class="text-white-50 mb-3">
+              Advanced air quality monitoring system using Vue 3, Leaflet, and GeoServer for
+              real-time environmental data visualization across Croatia.
+            </p>
+            <div>
+              <span class="badge bg-primary me-2">
+                <i class="fab fa-vuejs me-1"></i>Vue 3
+              </span>
+              <span class="badge bg-success me-2">
+                <i class="fas fa-map me-1"></i>Leaflet
+              </span>
+              <span class="badge bg-warning me-2">
+                <i class="fas fa-server me-1"></i>GeoServer
+              </span>
+              <span class="badge bg-info">
+                <i class="fab fa-bootstrap me-1"></i>Bootstrap
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 </template>
 
 <script setup>
-// 1. Import your local images from src/assets
+import { ref } from 'vue'
 import majidImg from '@/assets/majid_snow.png'
 import hyperImg from '@/assets/hyper.png'
 
-const members = [
+const members = ref([
   {
+    id: 1,
     name: 'Haipeng Zhu',
-    img: hyperImg,
-    bio: 'Backend & Analytics – Majoring in Geoinformatics at Polimi.',
-    linkedin: '#',
-    email: 'hyper@example.com'
+    avatar: hyperImg,
+    bio: 'Specialized in backend development and geospatial data processing. Expert in Python and API development for environmental monitoring systems.',
+    email: 'haipeng.zhu@mail.polimi.it',
+    linkedin: 'https://linkedin.com/in/haipeng-zhu',
+    github: 'https://github.com/haipeng-zhu'
   },
   {
+    id: 2,
     name: 'Rohollah Naeijian',
-    img: majidImg,
-    bio:
-      'Rohollah was born in Amol, Iran. He obtained his B.Sc. in Geomatics Engineering from Babol Nooshirvani University of Technology in 2023.',
-    linkedin: 'https://www.linkedin.com/in/rohollah-naeijian/',
-    email: 'naeijianrohollah@gmail.com'
+    avatar: majidImg,
+    bio: 'Leading our team with expertise in GIS analysis and remote sensing. Coordinates project development and ensures technical excellence.',
+    email: 'rohollah.naeijian@mail.polimi.it',
+    linkedin: 'https://linkedin.com/in/rohollah-naeijian',
+    github: 'https://github.com/rohollah-naeijian'
   },
   {
-    name: 'Zhenya',
-    img: 'https://placehold.co/120x120?text=Zhenya',
-    bio: 'Maps & Visualization – Specializing in WebGIS UX/UI.',
-    linkedin: '#',
-    email: 'zhenya@example.com'
+    id: 3,
+    name: 'Evgenii Miasnikov',
+    avatar: 'https://images.unsplash.com/photo-1494790108755-2616b612b123?w=300&h=300&fit=crop&crop=face',
+    bio: 'Creates intuitive user experiences and transforms complex environmental data into accessible visualizations using Vue.js and modern design.',
+    email: 'evgenii.miasnikov@mail.polimi.it',
+    linkedin: 'https://linkedin.com/in/evgenii-miasnikov',
+    github: 'https://github.com/evgenii-miasnikov'
   }
-]
+])
 </script>
 
 <style scoped>
-.team-section {
-  max-width: 1000px;
-  margin: 0 auto;
-}
-
-/* Vertical borders between columns */
-.border-end {
-  border-right: 1px solid #e5e5e5;
-}
-
-/* Circular photo size */
-.team-photo {
-  width: 120px;
-  height: 120px;
-  object-fit: cover;
-}
-
-/* Social icon buttons as circles */
-.social-btn {
-  width: 40px;
-  height: 40px;
-  border: 1px solid #ddd;
+.team-avatar-large {
+  width: 160px;
+  height: 160px;
   border-radius: 50%;
-  display: inline-flex;
+  object-fit: cover;
+  border: 4px solid rgba(255, 255, 255, 0.9);
+  box-shadow: 0 12px 35px rgba(0, 0, 0, 0.3);
+  transition: transform 0.3s ease;
+}
+
+.team-card:hover .team-avatar-large {
+  transform: scale(1.05);
+}
+
+.team-social-links {
+  display: flex;
+  flex-direction: column;
+  gap: 0.8rem;
+  align-items: center;
+}
+
+.team-social-links .btn {
+  min-width: 140px;
+  display: flex;
   align-items: center;
   justify-content: center;
-  transition: background 0.2s, border-color 0.2s;
+  transition: all 0.3s ease;
 }
 
-.social-btn:hover {
-  background: #1864ab;
-  border-color: #1864ab;
+.team-social-links .btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(255, 255, 255, 0.3);
 }
 
-/* Actual icon images inside the buttons */
-.social-icon {
-  width: 20px;
-  height: 20px;
-  object-fit: contain;
+.team-social-links .btn i {
+  font-size: 1.1rem;
+}
+
+@media (max-width: 768px) {
+  .team-avatar-large {
+    width: 140px;
+    height: 140px;
+  }
+
+  .team-social-links .btn {
+    min-width: 120px;
+    font-size: 0.85rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .team-avatar-large {
+    width: 120px;
+    height: 120px;
+  }
+
+  .team-social-links .btn {
+    min-width: 100px;
+    font-size: 0.8rem;
+    padding: 0.4rem 0.8rem;
+  }
 }
 </style>

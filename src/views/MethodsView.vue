@@ -3,23 +3,15 @@
     <!-- Dot‐nav for quick jump -->
     <nav class="methods-nav">
       <ul>
-        <li
-          v-for="(step, idx) in steps"
-          :key="idx"
-          :class="{ active: currentStep === idx }"
-          @click="scrollTo(idx)"
-        ></li>
+        <li v-for="(step, idx) in steps" :key="idx" :class="{ active: currentStep === idx }" @click="scrollTo(idx)">
+        </li>
       </ul>
     </nav>
 
     <!-- Scroll‐snap wrapper -->
     <div class="methods-snap" @scroll="onScroll" ref="snap">
-      <section
-        v-for="(step, idx) in steps"
-        :key="idx"
-        class="step-split"
-        :class="['step-split', { reverse: idx === 0 }]"
-      >
+      <section v-for="(step, idx) in steps" :key="idx" class="step-split"
+        :class="['step-split', { reverse: idx === 0 }]">
         <!-- Left: step text -->
         <div class="step-text">
           <h2 class="step-title">{{ step.title }}</h2>
@@ -40,11 +32,36 @@
                 </tr>
               </thead>
               <tbody>
-                <tr><td>1</td><td>≤ 10</td><td>≤ 5</td><td>≤ 15</td></tr>
-                <tr><td>2</td><td>&gt; 10 & ≤ 25</td><td>&gt; 5 & ≤ 10</td><td>&gt; 15 & ≤ 31</td></tr>
-                <tr><td>3</td><td>&gt; 25 & ≤ 40</td><td>&gt; 10 & ≤ 20</td><td>&gt; 31 & ≤ 40</td></tr>
-                <tr><td>4</td><td>&gt; 40 & ≤ 50</td><td>&gt; 20 & ≤ 25</td><td>&gt; 40 & ≤ 50</td></tr>
-                <tr><td>5</td><td>&gt; 50</td><td>&gt; 25</td><td>&gt; 50</td></tr>
+                <tr>
+                  <td>1</td>
+                  <td>≤ 10</td>
+                  <td>≤ 5</td>
+                  <td>≤ 15</td>
+                </tr>
+                <tr>
+                  <td>2</td>
+                  <td>&gt; 10 & ≤ 25</td>
+                  <td>&gt; 5 & ≤ 10</td>
+                  <td>&gt; 15 & ≤ 31</td>
+                </tr>
+                <tr>
+                  <td>3</td>
+                  <td>&gt; 25 & ≤ 40</td>
+                  <td>&gt; 10 & ≤ 20</td>
+                  <td>&gt; 31 & ≤ 40</td>
+                </tr>
+                <tr>
+                  <td>4</td>
+                  <td>&gt; 40 & ≤ 50</td>
+                  <td>&gt; 20 & ≤ 25</td>
+                  <td>&gt; 40 & ≤ 50</td>
+                </tr>
+                <tr>
+                  <td>5</td>
+                  <td>&gt; 50</td>
+                  <td>&gt; 25</td>
+                  <td>&gt; 50</td>
+                </tr>
               </tbody>
             </table>
           </template>
@@ -124,20 +141,12 @@
 import { ref } from 'vue'
 import aggExampleImg from '@/assets/pm25.png'
 import concMap from '@/assets/concentration_map.png'
-import add          from '@/assets/add.png'
+import add from '@/assets/add.png'
 import reclassified from '@/assets/reclassified.png'
-
 import zonalStatsImg from '@/assets/zonal.png'
-// const zonalStatsImg = 'https://placehold.co/600x400?text=Population+2020'
-
 import timeSeriesImg from '@/assets/mmm.png'
-// const timeSeriesImg = 'https://placehold.co/600x400?text=Population+2020'
-
 import validationImg from '@/assets/zzz.png'
-// const validationImg = 'https://placehold.co/600x400?text=Population+2020'
-
 import legendImg from '@/assets/legend.png'
-// const legendImg = 'https://placehold.co/400x300?text=Legend'
 
 const steps = [
   {
@@ -225,220 +234,3 @@ function onScroll() {
   currentStep.value = Math.round(container.scrollTop / container.clientHeight)
 }
 </script>
-
-<style scoped>
-.methods-container {
-  position: relative;
-}
-
-/* Dot navigation */
-.methods-nav {
-  position: fixed;
-  top: 50%;
-  right: 1rem;
-  transform: translateY(-50%);
-  z-index: 10;
-}
-.methods-nav ul {
-  list-style: none;
-  padding: 0;
-  margin: 0;
-}
-.methods-nav li {
-  width: 12px;
-  height: 12px;
-  margin: 8px 0;
-  background: rgba(0,0,0,0.2);
-  border-radius: 50%;
-  cursor: pointer;
-  transition: background 0.3s, transform 0.3s;
-}
-.methods-nav li.active {
-  background: #1864ab;
-  transform: scale(1.3);
-}
-
-/* Scroll-snap wrapper */
-.methods-snap {
-  height: 100vh;
-  overflow-y: auto;
-  scroll-snap-type: y mandatory;
-}
-
-/* Each step full-screen split */
-.step-split {
-  display: grid;
-  grid-template-columns: minmax(0, 600px) 1fr;
-  scroll-snap-align: start;
-  height: 100vh;
-}
-
-/* Text panel */
-.step-text {
-  background: linear-gradient(135deg, #1864ab, #4dabf7);
-  color: #fff;
-  padding: 2rem;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-}
-.step-title {
-  font-size: 2.5rem;
-  margin-bottom: 1rem;
-}
-.step-desc {
-  font-size: 1.125rem;
-  line-height: 1.5;
-  margin-bottom: 1.5rem;
-}
-.step-details {
-  list-style: none;
-  padding: 0;
-  font-size: 1.1rem;
-  line-height: 1.4;
-}
-
-/* 🔹 Concentration-classes table styling */
-.class-table {
-  width: 100%;
-  border-collapse: collapse;
-  margin-top: 1.5rem;
-}
-.class-table th,
-.class-table td {
-  border: 1px solid #ccc;
-  padding: 0.5rem;
-  text-align: center;
-  font-size: 0.9rem;
-}
-.class-table thead {
-  background-color: #4dabf7;
-  color: #fff;
-}
-.class-table tbody tr:nth-child(odd) {
-  background-color: rgba(255,255,255,0.3);
-}
-
-/* 🔹 Legend image styling for 7th page */
-.legend-container {
-  margin-top: 1.5rem;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-.legend-image {
-  max-width: 100%;
-  max-height: 200px;
-  object-fit: contain;
-  border-radius: 8px;
-  background: rgba(255,255,255,0.1);
-  padding: 0.5rem;
-}
-
-/* Image panel */
-.step-image {
-  background: none !important;
-  padding: 0 !important;
-}
-
-/* Mobile: stack and hide image */
-@media (max-width: 768px) {
-  .step-split {
-    display: block;
-    height: auto;
-  }
-  .step-image {
-    display: none;
-  }
-  .step-text {
-    padding: 2rem;
-    text-align: center;
-  }
-}
-
-/* 3-row grid for first step's image */
-.image-grid {
-  display: grid;
-  grid-template-rows: 1fr auto 1fr;
-  width: 100%;
-  height: 100%;
-}
-.grid-row {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-.grid-row img {
-  max-width: 90%;
-  max-height: 90%;
-  object-fit: contain;
-}
-
-/* placeholder for other steps */
-.step-image-placeholder {
-  width: 100%;
-  height: 100%;
-  background: #e0e0e0;
-}
-.step-split.reverse {
-  /* swap so image‐grid (first child) comes left, text at right */
-  grid-template-columns: 1fr minmax(0, 600px);
-}
-/* Center title + image together */
-.image-content {
-  flex-direction: column;
-  gap: 0.5rem;
-}
-.image-title {
-  color: #1864ab;
-  font-size: 1.25rem;
-  margin: 0;
-}
-.image-content img {
-  max-width: 90%;
-  max-height: 90%;
-  object-fit: contain;
-}
-/* Container for the title + image inside the right panel */
-.image-panel-content {
-  width: 100%;
-  height: 100%;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  gap: 0.5rem;
-}
-
-/* Title above the image */
-.image-title {
-  margin: 0;
-  color: #1864ab;
-  font-size: 1.5rem;
-}
-
-/* Image sizing */
-/* 3) Make the img cover the full panel area */
-.image-panel-content img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  display: block;
-}
-/* Only target the 2nd step's image */
-.step-split:nth-of-type(2) .image-panel-content img {
-  max-width: 90%;       /* never exceed 90% of panel width */
-  max-height: 90%;      /* never exceed 90% of panel height */
-  object-fit: contain;  /* preserve aspect ratio, no cropping */
-  margin: auto;         /* center in panel */
-  display: block;
-  background: linear-gradient(135deg, #ffffff, #ffffff);
-  color: #ffffff;
-}
-.step-split:nth-of-type(2) .image-panel-content img {
-  width: 100%;
-  height: 100%;
-  object-fit: contain;  /* cover whole panel, may crop edges */
-  display: block;
-}
-</style>

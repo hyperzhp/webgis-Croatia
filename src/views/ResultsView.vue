@@ -6,10 +6,7 @@
     <div class="row g-4">
       <div class="col-md-4" v-for="card in topCards" :key="card.title">
         <div class="card shadow-sm h-100">
-          <div
-            class="card-img-placeholder"
-            :class="{ filled: card.image }"
-          >
+          <div class="card-img-placeholder" :class="{ filled: card.image }">
             <template v-if="card.image">
               <img :src="card.image" alt="" />
             </template>
@@ -28,16 +25,9 @@
 
     <!-- 2) Second row: Built-up (7 cols) & Population (5 cols) -->
     <div class="row g-4 mt-3">
-      <div
-        v-for="(card, i) in bottomCards"
-        :key="card.title"
-        :class="i === 0 ? 'col-md-7' : 'col-md-5'"
-      >
+      <div v-for="(card, i) in bottomCards" :key="card.title" :class="i === 0 ? 'col-md-7' : 'col-md-5'">
         <div class="card shadow-sm h-100">
-          <div
-            class="card-img-placeholder"
-            :class="{ filled: card.image }"
-          >
+          <div class="card-img-placeholder" :class="{ filled: card.image }">
             <template v-if="card.image">
               <img :src="card.image" alt="" />
             </template>
@@ -74,7 +64,7 @@
 
 <script setup>
 import piechart from '@/assets/piechart.png'
-import plotImg   from '@/assets/plot.png'
+import plotImg from '@/assets/plot.png'
 
 const topCards = [
   /* ... unchanged ... */
@@ -101,7 +91,7 @@ const bottomCards = [
   background: #fff;
   border-radius: 1rem;
   padding: 2rem;
-  box-shadow: 0 0.5rem 1.5rem rgba(0,0,0,0.1);
+  box-shadow: 0 0.5rem 1.5rem rgba(0, 0, 0, 0.1);
 }
 
 .card-img-placeholder {
