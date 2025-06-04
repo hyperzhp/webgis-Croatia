@@ -38,22 +38,10 @@
                 <table class="class-table">
                   <thead>
                     <tr>
-                      <th>
-                        Concentration<br>
-                        levels
-                      </th>
-                      <th>
-                        NO<sub>2</sub><br>
-                        [µg/m<sup>3</sup>]
-                      </th>
-                      <th>
-                        PM<sub>2.5</sub><br>
-                        [µg/m<sup>3</sup>]
-                      </th>
-                      <th>
-                        PM<sub>10</sub><br>
-                        [µg/m<sup>3</sup>]
-                      </th>
+                      <th>Concentration levels</th>
+                      <th>NO₂ [µg/m³]</th>
+                      <th>PM₂.₅ [µg/m³]</th>
+                      <th>PM₁₀ [µg/m³]</th>
                     </tr>
                   </thead>
                   <tbody>
@@ -528,14 +516,17 @@ function getStepImage(idx) {
 
 .table-section {
   width: 100%;
-  padding: 2rem 0;
+  padding: 1rem 0;
   display: flex;
   justify-content: center;
+  align-items: center;
+  transform: scale(0.9);
+  transform-origin: top center;
 }
 
 .table-container {
   width: 100%;
-  max-width: 800px;
+  max-width: 900px;
   margin: 0 auto;
   background: white;
   border-radius: 12px;
@@ -549,14 +540,28 @@ function getStepImage(idx) {
   border-collapse: separate;
   border-spacing: 0;
   font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  table-layout: fixed;
 }
 
 .class-table th,
 .class-table td {
-  padding: 1.2rem 1rem;
+  padding: 1rem;
   text-align: center;
   border: none;
   border-bottom: 1px solid #e2e8f0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.class-table th:first-child,
+.class-table td:first-child {
+  width: 20%;
+}
+
+.class-table th:not(:first-child),
+.class-table td:not(:first-child) {
+  width: 26.66%;
 }
 
 .class-table th {
@@ -647,27 +652,42 @@ function getStepImage(idx) {
 }
 
 /* Responsive adjustments */
-@media (max-width: 768px) {
-  .table-container {
-    margin: 0 1rem;
-    font-size: 0.9rem;
+@media (max-width: 991.98px) {
+  .table-section {
+    transform: scale(0.85);
+    padding: 0;
   }
 
-  .class-table th,
-  .class-table td {
-    padding: 1rem 0.75rem;
+  .table-container {
+    margin: 0 0.5rem;
   }
 }
 
-@media (max-width: 480px) {
-  .table-container {
-    margin: 0 0.5rem;
-    font-size: 0.85rem;
+@media (max-width: 768px) {
+  .table-section {
+    transform: scale(0.8);
   }
 
   .class-table th,
   .class-table td {
     padding: 0.75rem 0.5rem;
+    font-size: 0.95rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .table-section {
+    transform: scale(0.7);
+  }
+
+  .table-container {
+    margin: 0;
+  }
+
+  .class-table th,
+  .class-table td {
+    padding: 0.5rem 0.25rem;
+    font-size: 0.9rem;
   }
 }
 
