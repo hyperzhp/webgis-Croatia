@@ -128,6 +128,46 @@ const members = ref([
   transition: transform 0.3s ease;
 }
 
+.team-card {
+  perspective: 1000px;
+  margin: 0 auto;
+  max-width: 400px;
+}
+
+.team-card-inner {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  text-align: center;
+  transition: transform 0.8s;
+  transform-style: preserve-3d;
+}
+
+.team-card:hover .team-card-inner {
+  transform: rotateY(180deg);
+}
+
+.team-card-front,
+.team-card-back {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  backface-visibility: hidden;
+  padding: 2rem 1.5rem;
+  border-radius: 1rem;
+}
+
+.team-card-front {
+  z-index: 2;
+}
+
+.team-card-back {
+  transform: rotateY(180deg);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
 .team-card:hover .team-avatar-large {
   transform: scale(1.05);
 }
@@ -137,6 +177,7 @@ const members = ref([
   flex-direction: column;
   gap: 0.8rem;
   align-items: center;
+  margin-top: auto;
 }
 
 .team-social-links .btn {
@@ -157,27 +198,74 @@ const members = ref([
 }
 
 @media (max-width: 768px) {
+  .team-card {
+    max-width: 340px;
+  }
+
+  .team-card-front,
+  .team-card-back {
+    padding: 1.5rem 1rem;
+  }
+
   .team-avatar-large {
-    width: 140px;
-    height: 140px;
+    width: 130px;
+    height: 130px;
+    margin-bottom: 1rem;
+  }
+
+  .team-social-links {
+    gap: 0.6rem;
   }
 
   .team-social-links .btn {
     min-width: 120px;
     font-size: 0.85rem;
+    padding: 0.4rem 0.8rem;
+  }
+
+  h4 {
+    font-size: 1.2rem;
+    margin-bottom: 0.5rem;
+  }
+
+  p {
+    font-size: 0.9rem;
+    margin-bottom: 1rem;
   }
 }
 
 @media (max-width: 480px) {
+  .team-card {
+    max-width: 300px;
+  }
+
+  .team-card-front,
+  .team-card-back {
+    padding: 1.25rem 0.75rem;
+  }
+
   .team-avatar-large {
-    width: 120px;
-    height: 120px;
+    width: 110px;
+    height: 110px;
+  }
+
+  .team-social-links {
+    gap: 0.5rem;
   }
 
   .team-social-links .btn {
     min-width: 100px;
     font-size: 0.8rem;
-    padding: 0.4rem 0.8rem;
+    padding: 0.35rem 0.7rem;
+  }
+
+  h4 {
+    font-size: 1.1rem;
+  }
+
+  p {
+    font-size: 0.85rem;
+    line-height: 1.4;
   }
 }
 </style>
