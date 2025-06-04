@@ -78,7 +78,7 @@
 </template>
 
 <script setup>
-import { onMounted, ref } from 'vue';
+import { onMounted, ref, onUnmounted } from 'vue';
 import 'ol/ol.css';
 import Map from 'ol/Map';
 import View from 'ol/View';
@@ -509,21 +509,31 @@ onMounted(() => {
       YearlyConcentrationMapsGroup,
       AADGroup,
       OtherGroup
-    ], // Передаем группы вместо отдельных слоев
+    ],
     view: new View({
       center: croatiaCenter,
       zoom: 7,
-      minZoom: 7,        // Минимальный зум (нельзя отдалить больше)
-      maxZoom: 12,       // Максимальный зум (нельзя приблизить больше)
-      extent: croatiaExtentFromCoords, // Ограничение области просмотра
-      constrainOnlyCenter: false, // Ограничиваем всю область просмотра
-      enableRotation: false // Отключаем поворот карты
+      minZoom: 7,
+      maxZoom: 12,
+      extent: croatiaExtentFromCoords,
+      constrainOnlyCenter: false,
+      enableRotation: false
     }),
   });
 
-  // Показываем информацию об активном слое при инициализации
+  // 显示活动图层信息
   showLayerInfo('Population exposure to PM10 2020');
-  console.log('Карта с группами слоев инициализирована', map);
+  console.log('地图和图层组已初始化', map);
+});
+
+onUnmounted(() => {
+  // 清理地图实例
+  if (map) {
+    map.setTarget(null);
+    map = null;
+  }
+  // 恢复滚动
+  document.body.style.overflow = '';
 });
 
 // Функция для выбора базового слоя
@@ -575,38 +585,14 @@ function checkIfAnyTimeLayerVisible() {
 
 <style>
 /* Базовые стили */
-html,
-body {
-  height: 100%;
-  margin: 0;
-  padding: 0;
-}
-
-#app {
-  position: relative;
-  height: 100vh;
-  overflow: hidden;
-}
-
-.navbar {
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  z-index: 2000;
-  background: rgba(255, 255, 255, 0.95);
-  backdrop-filter: blur(10px);
-  height: 60px;
-  border-bottom: 1px solid #e0e0e0;
-}
-
 #map_and_legend_container {
-  position: absolute;
+  position: fixed;
   top: 0;
   left: 0;
   right: 0;
-  bottom: 0px;
+  bottom: 0;
   overflow: hidden;
+  z-index: 1;
 }
 
 #map {

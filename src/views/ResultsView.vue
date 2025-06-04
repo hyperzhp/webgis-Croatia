@@ -73,7 +73,7 @@ const pollutantCards = [
     plotText: 'Max and mean values for each year between 2013 and 2022.',
     pie: piechart,
     pieTitle: 'Population Exposure (2020) – PM2.5',
-    pieText: 'Percentage of Croatia’s population living in each PM2.5 concentration class.'
+    pieText: 'Percentage of Croatia\'s population living in each PM2.5 concentration class.'
   },
   {
     name: 'NO₂',
@@ -82,17 +82,17 @@ const pollutantCards = [
     plotText: 'Max and mean values for each year between 2013 and 2022.',
     pie: piechartNo2,
     pieTitle: 'Population Exposure (2020) – NO₂',
-    pieText: 'Percentage of Croatia’s population living in each NO₂ concentration class.'
+    pieText: 'Percentage of Croatia\'s population living in each NO₂ concentration class.'
   },
   {
-    name: 'OM10',
+    name: 'PM10',
     plot: plotImg3,
     plotTitle: 'PM10 Time-Series Analysis',
-    plotText: `Comprehensive analysis of PM10 concentration trends from 2013 to 2022, showing seasonal patterns and long-term changes in air quality.`,
+    plotText: 'Comprehensive analysis of PM10 concentration trends from 2013 to 2022, showing seasonal patterns and long-term changes in air quality.',
     pie: piechartPM10,
     pieTitle: 'Population Exposure Distribution (2020)',
-    pieText: `Analysis of population distribution across PM10 concentration zones, identifying areas of concern and potential intervention needs.`,
-  },
+    pieText: 'Analysis of population distribution across PM10 concentration zones, identifying areas of concern and potential intervention needs.'
+  }
 ];
 </script>
 
@@ -102,11 +102,16 @@ const pollutantCards = [
   margin: 0 auto;
   padding: 2rem;
   min-height: 100vh;
+  position: relative;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
 }
 
 .results-header {
   text-align: center;
   margin-bottom: 3rem;
+  padding-top: 1rem;
 }
 
 .results-header h2 {
@@ -130,6 +135,7 @@ const pollutantCards = [
   display: flex;
   flex-direction: column;
   gap: 3rem;
+  flex: 1;
 }
 
 .pollutant-section {
@@ -139,6 +145,7 @@ const pollutantCards = [
   box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
   border: 1px solid rgba(255, 255, 255, 0.2);
   backdrop-filter: blur(10px);
+  margin-bottom: 2rem;
 }
 
 .pollutant-title {
@@ -258,6 +265,8 @@ const pollutantCards = [
 @media (max-width: 1200px) {
   .results-container {
     padding: 1.5rem;
+    height: auto;
+    min-height: 100vh;
   }
 
   .cards-container {
@@ -266,6 +275,11 @@ const pollutantCards = [
 }
 
 @media (max-width: 991.98px) {
+  .results-container {
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+
   .cards-container {
     grid-template-columns: 1fr;
   }

@@ -56,7 +56,7 @@
               <h3 class="text-white mb-0">Croatia WebGIS Project</h3>
             </div>
             <p class="text-white-50 mb-3">
-              Advanced air quality monitoring system using Vue 3, Leaflet, and GeoServer for
+              Advanced air quality detection system using Vue 3, OpenLayers, and GeoServer for
               real-time environmental data visualization across Croatia.
             </p>
             <div>
@@ -91,7 +91,7 @@ const members = ref([
     id: 1,
     name: 'Haipeng Zhu',
     avatar: hyperImg,
-    bio: 'Specialized in backend development and geospatial data processing. Expert in Python and API development for environmental monitoring systems.',
+    bio: 'Focusing on Vue.js and UI/UX design. Led the initial framework setup and optimized all pages with responsive design, ensuring excellent user experience across desktop and mobile devices.',
     email: 'haipeng.zhu@mail.polimi.it',
     linkedin: 'https://linkedin.com/in/haipeng-zhu',
     github: 'https://github.com/haipeng-zhu'
@@ -100,7 +100,7 @@ const members = ref([
     id: 2,
     name: 'Rohollah Naeijian',
     avatar: majidImg,
-    bio: 'Leading our team with expertise in GIS analysis and remote sensing. Coordinates project development and ensures technical excellence.',
+    bio: 'Rohollah was born in Amol, Iran. He obtained his B.Sc. in Geomatics Engineering from Babol Nooshirvani University of Technology in 2023.',
     email: 'rohollah.naeijian@mail.polimi.it',
     linkedin: 'https://linkedin.com/in/rohollah-naeijian',
     github: 'https://github.com/rohollah-naeijian'

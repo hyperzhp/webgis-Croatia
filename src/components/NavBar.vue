@@ -151,11 +151,14 @@ const handleMobileNavClick = (path) => {
     navigator.vibrate(50)
   }
 
-  console.log('Navigating to:', path)
   closeMenu()
-
-  // Smooth navigation with error handling
-  router.push(path).catch(err => {
+  
+  // Navigate and reset scroll
+  router.push(path).then(() => {
+    document.body.style.overflow = ''
+    document.body.classList.remove('menu-open')
+    window.scrollTo(0, 0)
+  }).catch(err => {
     console.error('Navigation error:', err)
   })
 }
@@ -170,17 +173,25 @@ const handleEscape = (event) => {
 // Watch for route changes
 watch(() => route.path, () => {
   closeMenu()
+  // Reset scroll position and body styles
+  document.body.style.overflow = ''
+  document.body.classList.remove('menu-open')
+  window.scrollTo(0, 0)
 })
 
 // Lifecycle management
 onMounted(() => {
   window.addEventListener('scroll', handleScroll, { passive: true })
   document.addEventListener('keydown', handleEscape)
+  // Reset body styles on mount
+  document.body.style.overflow = ''
+  document.body.classList.remove('menu-open')
 })
 
 onUnmounted(() => {
   window.removeEventListener('scroll', handleScroll)
   document.removeEventListener('keydown', handleEscape)
+  // Reset body styles on unmount
   document.body.style.overflow = ''
   document.body.classList.remove('menu-open')
 
