@@ -63,7 +63,8 @@ import plotImg from '@/assets/plot.png';
 import piechart from '@/assets/piechart.png';
 import plotImg2 from '@/assets/plot_no2.png';
 import piechartNo2 from '@/assets/piechart_no22.png';
-
+import plotImg3 from '@/assets/plot_PM10.png';
+import piechartPM10 from '@/assets/piechart_PM10.png';
 const pollutantCards = [
   {
     name: 'PM2.5',
@@ -85,10 +86,10 @@ const pollutantCards = [
   },
   {
     name: 'OM10',
-    plot: plotImg,
+    plot: plotImg3,
     plotTitle: 'PM10 Time-Series Analysis',
     plotText: `Comprehensive analysis of PM10 concentration trends from 2013 to 2022, showing seasonal patterns and long-term changes in air quality.`,
-    pie: piechart,
+    pie: piechartPM10,
     pieTitle: 'Population Exposure Distribution (2020)',
     pieText: `Analysis of population distribution across PM10 concentration zones, identifying areas of concern and potential intervention needs.`,
   },

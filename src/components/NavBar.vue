@@ -520,6 +520,8 @@ const items = [
   backdrop-filter: blur(10px);
   -webkit-backdrop-filter: blur(10px);
   border: 1px solid transparent;
+  text-align: center;
+  min-width: 120px;
 }
 
 .nav-link-content {
@@ -527,6 +529,7 @@ const items = [
   z-index: 2;
   display: flex;
   align-items: center;
+  justify-content: center;
   gap: 0.75rem;
 }
 
@@ -547,6 +550,7 @@ const items = [
 .nav-text {
   transition: all 0.3s ease;
   white-space: nowrap;
+  text-align: center;
 }
 
 .nav-link-bg {
@@ -824,9 +828,10 @@ const items = [
 .mobile-nav-content {
   display: flex;
   align-items: center;
-  gap: 1rem;
   padding: 1.2rem 1.5rem;
   position: relative;
+  justify-content: space-between;
+  width: 100%;
 }
 
 .mobile-icon-wrapper {
@@ -859,13 +864,17 @@ const items = [
   font-size: 1.05rem;
   font-weight: 600;
   flex: 1;
+  text-align: center;
   transition: all 0.3s ease;
+  margin-left: -40px;
+  /* Offset the icon width to achieve true center */
 }
 
 .mobile-nav-arrow {
   font-size: 0.9rem;
   opacity: 0.5;
   transition: all 0.3s ease;
+  margin-left: 1rem;
 }
 
 .mobile-nav-link:hover .mobile-nav-arrow {
