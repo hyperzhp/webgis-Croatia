@@ -64,7 +64,7 @@
                 <i class="fab fa-vuejs me-1"></i>Vue 3
               </span>
               <span class="badge bg-success me-2">
-                <i class="fas fa-map me-1"></i>Leaflet
+                <i class="fas fa-map me-1"></i>OpenLayers
               </span>
               <span class="badge bg-warning me-2">
                 <i class="fas fa-server me-1"></i>GeoServer
@@ -84,6 +84,7 @@
 import { ref } from 'vue'
 import majidImg from '@/assets/majid_snow.png'
 import hyperImg from '@/assets/hyper.png'
+import zhenyaImg from '@/assets/zhenya.png'
 
 const members = ref([
   {
@@ -107,11 +108,11 @@ const members = ref([
   {
     id: 3,
     name: 'Evgenii Miasnikov',
-    avatar: 'https://images.unsplash.com/photo-1494790108755-2616b612b123?w=300&h=300&fit=crop&crop=face',
-    bio: 'Creates intuitive user experiences and transforms complex environmental data into accessible visualizations using Vue.js and modern design.',
+    avatar: zhenyaImg,
+    bio: 'Specializes in visualizing complex environmental and geospatial datasets through interactive web applications. Developed complete map interfaces with multiple toggleable layers, legends, and responsive UX using Vue.js, OpenLayers, and GeoServer.',
     email: 'evgenii.miasnikov@mail.polimi.it',
-    linkedin: 'https://linkedin.com/in/evgenii-miasnikov',
-    github: 'https://github.com/evgenii-miasnikov'
+    linkedin: 'www.linkedin.com/in/evgenii-miasnikov-721948227',
+    github: 'https://github.com/EVMiasnikov'
   }
 ])
 </script>
