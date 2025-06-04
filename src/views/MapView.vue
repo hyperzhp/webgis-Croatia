@@ -376,7 +376,7 @@ const PM10yearlyMapLayer = new TileLayer({
   source: new TileWMS({
     url: 'https://www.gis-geoserver.polimi.it/geoserver/gisgeoserver_04/wms',
     params: {
-      LAYERS: `gisgeoserver_04:Croatia_concentration_map_${selectedYear.value}`,
+      LAYERS: `gisgeoserver_04:Croatia_concentration_map_pm10_${selectedYear.value}`,
       TILED: true,
       FORMAT: 'image/png',
       TRANSPARENT: true,
@@ -408,7 +408,7 @@ function updateYear() {
   });
 
   PM10yearlyMapLayer.getSource().updateParams({
-    LAYERS: `gisgeoserver_04:Croatia_concentration_map_${selectedYear.value}`,
+    LAYERS: `gisgeoserver_04:Croatia_concentration_map_pm10_${selectedYear.value}`,
   });
 
   PM2p5yearlyMapLayer.getSource().updateParams({
