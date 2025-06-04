@@ -87,6 +87,7 @@ import LayerGroup from 'ol/layer/Group';
 import OSM from 'ol/source/OSM';
 import XYZ from 'ol/source/XYZ';
 import TileWMS from 'ol/source/TileWMS';
+import { fromLonLat } from 'ol/proj';
 import pm10UrbanChart from '@/assets/pm10-urban-chart.png';
 import bivariateLegend from '@/assets/legend.png';
 
@@ -473,8 +474,6 @@ const layerGroups = ref([
 ]);
 
 let map = null;
-
-import { fromLonLat } from 'ol/proj';
 
 // Геодезические координаты границ Хорватии (долгота, широта)
 const croatiaGeodeticBounds = {

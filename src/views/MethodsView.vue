@@ -538,86 +538,111 @@ function getStepImage(idx) {
   max-width: 800px;
   margin: 0 auto;
   background: white;
-  border-radius: 8px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  overflow-x: auto;
+  border-radius: 12px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+  border: 1px solid rgba(24, 100, 171, 0.1);
 }
 
 .class-table {
   width: 100%;
-  border-collapse: collapse;
+  border-collapse: separate;
   border-spacing: 0;
   font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
 }
 
 .class-table th,
 .class-table td {
-  padding: 1rem;
+  padding: 1.2rem 1rem;
   text-align: center;
-  border: 1px solid #e2e8f0;
+  border: none;
+  border-bottom: 1px solid #e2e8f0;
 }
 
 .class-table th {
-  background: #4dabf7;
+  background: linear-gradient(135deg, var(--primary-blue) 0%, var(--primary-light) 100%);
   color: white;
-  font-weight: 500;
+  font-weight: 600;
   font-size: 1.1rem;
   line-height: 1.4;
   white-space: nowrap;
+  letter-spacing: 0.5px;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
 }
 
 .class-table td {
   font-size: 1.05rem;
   background: white;
   color: #2d3748;
+  transition: background-color 0.2s ease;
 }
 
 .class-table tr:nth-child(even) td {
+  background: #f8faff;
+}
+
+.class-table tr:hover td {
   background: #f0f7ff;
 }
 
 .class-table th sub {
-  font-size: 0.7em;
+  font-size: 0.75em;
   vertical-align: sub;
   margin-left: 1px;
 }
 
 .class-table th sup {
-  font-size: 0.7em;
+  font-size: 0.75em;
   vertical-align: super;
   margin-left: 1px;
 }
 
-/* Column widths */
+/* First column styling */
 .class-table th:first-child,
 .class-table td:first-child {
-  width: 25%;
+  font-weight: 600;
+  background: #f8faff;
+  border-right: 1px solid #e2e8f0;
 }
 
-.class-table th:not(:first-child),
-.class-table td:not(:first-child) {
-  width: 25%;
+.class-table td:first-child {
+  color: var(--primary-blue);
+}
+
+/* Last row styling */
+.class-table tr:last-child td {
+  border-bottom: none;
 }
 
 /* Dark mode table styles */
 @media (prefers-color-scheme: dark) {
   .table-container {
-    background: #2d3748;
+    background: #1a2234;
+    border-color: rgba(255, 255, 255, 0.1);
   }
 
   .class-table td {
-    background: #2d3748;
+    background: #1a2234;
     color: #e2e8f0;
-    border-color: #4a5568;
+    border-color: rgba(255, 255, 255, 0.1);
   }
 
   .class-table tr:nth-child(even) td {
-    background: #2c3a4f;
+    background: #212b42;
+  }
+
+  .class-table tr:hover td {
+    background: #2a3655;
   }
 
   .class-table th {
-    background: #2c5282;
-    border-color: #4a5568;
+    border-color: rgba(255, 255, 255, 0.1);
+  }
+
+  .class-table th:first-child,
+  .class-table td:first-child {
+    background: #212b42;
+    border-right-color: rgba(255, 255, 255, 0.1);
   }
 }
 
@@ -625,30 +650,24 @@ function getStepImage(idx) {
 @media (max-width: 768px) {
   .table-container {
     margin: 0 1rem;
-  }
-
-  .class-table {
     font-size: 0.9rem;
   }
 
   .class-table th,
   .class-table td {
-    padding: 0.75rem 0.5rem;
+    padding: 1rem 0.75rem;
   }
 }
 
 @media (max-width: 480px) {
   .table-container {
     margin: 0 0.5rem;
-  }
-
-  .class-table {
-    font-size: 0.8rem;
+    font-size: 0.85rem;
   }
 
   .class-table th,
   .class-table td {
-    padding: 0.5rem 0.25rem;
+    padding: 0.75rem 0.5rem;
   }
 }
 
