@@ -107,8 +107,15 @@ const layerInfoData = {
     legend: bivariateLegend
   },
   'Population exposure to PM10 2020': {
-    title: 'Population Exposure to PM10 (2020)',
+    title: 'Population Exposure to PM 10 (2020)',
     description: 'The bivariate map shows the relationship between PM10 particle concentration and population distribution in Croatia for the year 2020.',
+    source: 'GIS GeoServer - Politecnico di Milano',
+    year: '2020',
+    legend: bivariateLegend
+  },
+  'Population exposure to PM 2.5 2020': {
+    title: 'Population Exposure to PM 2.5 (2020)',
+    description: 'The bivariate map shows the relationship between PM 2.5 particle concentration and population distribution in Croatia for the year 2020.',
     source: 'GIS GeoServer - Politecnico di Milano',
     year: '2020',
     legend: bivariateLegend
@@ -292,7 +299,21 @@ const BivariateLayerPM10 = new TileLayer({
     },
     serverType: 'geoserver',
   }),
-  title: 'Population exposure to PM10 2020',
+  title: 'Population exposure to PM 10 2020',
+  visible: true,
+});
+const BivariateLayerPM2p5 = new TileLayer({
+  source: new TileWMS({
+    url: 'https://www.gis-geoserver.polimi.it/geoserver/gisgeoserver_04/wms',
+    params: {
+      LAYERS: 'gisgeoserver_04:Croatia_pm2p5_2020_bivariate',
+      TILED: true,
+      FORMAT: 'image/png',
+      TRANSPARENT: true,
+    },
+    serverType: 'geoserver',
+  }),
+  title: 'Population exposure to PM 2.5 2020',
   visible: true,
 });
 const AADPM10 = new TileLayer({
@@ -430,7 +451,8 @@ const baseGroup = new LayerGroup({
 const bivariateGroup = new LayerGroup({
   layers: [
     BivariateLayerNO2,
-    BivariateLayerPM10
+    BivariateLayerPM10,
+    BivariateLayerPM2p5
   ],
   title: 'Population exposure to pollutants',
   visible: true,
