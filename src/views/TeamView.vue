@@ -93,8 +93,8 @@ const members = ref([
     avatar: hyperImg,
     bio: 'Focusing on Vue.js and UI/UX design. Led the initial framework setup and optimized all pages with responsive design, ensuring excellent user experience across desktop and mobile devices.',
     email: 'haipeng.zhu@mail.polimi.it',
-    linkedin: 'https://linkedin.com/in/haipeng-zhu',
-    github: 'https://github.com/haipeng-zhu'
+    linkedin: 'https://www.linkedin.com/in/haipeng-zhu-50570b33b/',
+    github: 'https://github.com/hyperzhp'
   },
   {
     id: 2,
