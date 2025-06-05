@@ -1,0 +1,93 @@
+/* ============================================
+   CROATIA BACKGROUND STYLES
+   ============================================ */
+.croatia-bg {
+  background: 
+    linear-gradient(rgba(102, 126, 234, 0.85), rgba(118, 75, 162, 0.85)),
+    url('https://images.unsplash.com/photo-1555990538-c8d015f2f26a?ixlib=rb-4.0.3&auto=format&fit=crop&w=2000&q=80') center/cover no-repeat;
+  background-attachment: fixed;
+  min-height: 100vh;
+  padding: 80px 0;
+}
+
+.croatia-bg-light {
+  background: 
+    linear-gradient(rgba(255, 255, 255, 0.15), rgba(248, 249, 250, 0.15)),
+    url('https://images.unsplash.com/photo-1555990538-c8d015f2f26a?ixlib=rb-4.0.3&auto=format&fit=crop&w=2000&q=80') center/cover no-repeat;
+  background-attachment: fixed;
+  min-height: 100vh;
+  font-family: 'Inter', sans-serif;
+}
+
+.croatia-bg-subtle {
+  background: 
+    linear-gradient(rgba(255, 255, 255, 0.95), rgba(248, 249, 250, 0.95)),
+    url('https://images.unsplash.com/photo-1555990538-c8d015f2f26a?ixlib=rb-4.0.3&auto=format&fit=crop&w=2000&q=80') center/cover no-repeat;
+  background-attachment: fixed;
+  min-height: 100vh;
+  padding: 40px 20px;
+}
+
+/* ============================================
+   GLASSMORPHISM UTILITIES
+   ============================================ */
+.glass-card {
+  background: var(--glass-white);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  border-radius: var(--border-radius-md);
+  box-shadow: var(--shadow-medium);
+}
+
+.glass-card-dark {
+  background: var(--glass-dark);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: var(--border-radius-md);
+  box-shadow: var(--shadow-medium);
+}
+
+.glass-overlay {
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+/* ============================================
+   UTILITY CLASSES
+   ============================================ */
+.text-gradient {
+  background: linear-gradient(45deg, var(--primary-blue), var(--primary-light));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.btn-primary-gradient {
+  background: linear-gradient(45deg, var(--primary-blue), var(--primary-light));
+  border: none;
+  color: white;
+  transition: var(--transition-smooth);
+}
+
+.btn-primary-gradient:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-medium);
+}
+
+.container-fluid-custom {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 0 2rem;
+}
+
+.section-padding {
+  padding: 4rem 0;
+}
+
+.section-padding-lg {
+  padding: 6rem 0;
+} 

@@ -1,0 +1,282 @@
+/* ============================================
+   RESPONSIVE STYLES
+   ============================================ */
+@media (min-width: 1200px) {
+  .step-split {
+    grid-template-columns: minmax(400px, 40%) 1fr;
+  }
+
+  .step-split.reverse {
+    grid-template-columns: 1fr minmax(400px, 40%);
+  }
+
+  .webgis-hero {
+    max-width: 95%;
+  }
+}
+
+@media (max-width: 1024px) {
+  .step-split {
+    grid-template-columns: minmax(280px, 50%) 1fr;
+  }
+
+  .step-split.reverse {
+    grid-template-columns: 1fr minmax(280px, 50%);
+  }
+
+  .step-text {
+    padding: 1.5rem;
+  }
+
+  .methods-nav {
+    right: 0.5rem;
+  }
+
+  .webgis-hero {
+    flex-direction: column;
+    margin: 2rem auto 0 auto;
+    border-radius: 1.5rem;
+    max-width: 95%;
+  }
+
+  .hero-content-section,
+  .hero-swiper-container {
+    min-height: 450px;
+  }
+
+  .hero-content-section {
+    padding: 2.5rem 2rem;
+    border-radius: 0 0 1.5rem 1.5rem;
+  }
+
+  .hero-swiper-container {
+    border-radius: 1.5rem 1.5rem 0 0;
+  }
+
+  .interactive-map-widget {
+    width: 65px;
+    height: 65px;
+    top: 15px;
+    right: 20px;
+  }
+
+  .enhanced-buttons-container {
+    flex-direction: column;
+    gap: 1.5rem;
+  }
+
+  .enhanced-btn {
+    min-width: 320px;
+    max-width: 400px;
+  }
+}
+
+@media (max-width: 768px) {
+  .croatia-bg-light {
+    padding: 40px 15px;
+  }
+
+  .webgis-hero {
+    margin: 1.5rem auto 0 auto;
+  }
+
+  .hero-main-title {
+    font-size: 2.2rem;
+  }
+
+  .hero-description {
+    font-size: 1.1rem;
+  }
+
+  .location-caption {
+    padding: 1.2rem 1.4rem;
+    max-width: calc(100% - 2rem);
+    left: 1rem;
+    right: 1rem;
+  }
+
+  .interactive-map-widget {
+    width: 55px;
+    height: 55px;
+    top: 12px;
+    right: 15px;
+  }
+
+  .hero-cta-button {
+    display: block;
+    text-align: center;
+    margin: 0.5rem 0;
+    padding: 1rem 2rem;
+  }
+
+  .feature-card {
+    padding: 2rem 1.5rem;
+  }
+
+  .team-card {
+    height: 350px;
+  }
+  
+  .team-card-front,
+  .team-card-back {
+    padding: 1.5rem;
+  }
+  
+  .team-avatar {
+    width: 100px;
+    height: 100px;
+  }
+  
+  .croatia-bg {
+    padding: 60px 0;
+  }
+
+  .step-split,
+  .step-split.reverse {
+    display: flex;
+    flex-direction: column;
+    height: auto;
+    min-height: 100vh;
+  }
+
+  .step-text {
+    flex: 1;
+    padding: 2rem 1.5rem;
+    min-height: 60vh;
+  }
+
+  .step-image {
+    flex: 1;
+    min-height: 40vh;
+    padding: 1rem;
+  }
+
+  .methods-nav {
+    display: none;
+  }
+
+  .methods-snap {
+    scroll-snap-type: none;
+  }
+
+  .dataset-split {
+    flex-direction: column;
+    margin: 2rem auto;
+  }
+
+  .dataset-split.reverse {
+    flex-direction: column;
+  }
+
+  .dataset-text {
+    flex: none;
+    padding: 2rem 1.5rem;
+  }
+
+  .dataset-image {
+    flex: none;
+    height: 250px;
+    min-height: 250px;
+  }
+
+  .dataset-footer {
+    padding: 3rem 1.5rem;
+  }
+
+  .enhanced-btn {
+    min-width: 280px;
+    padding: 1.2rem 1.5rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .hero-content-section {
+    padding: 2rem 1.5rem;
+  }
+
+  .hero-main-title {
+    font-size: 1.9rem;
+  }
+
+  .hero-description {
+    font-size: 1rem;
+  }
+
+  .features-section {
+    padding: 3rem 0;
+  }
+
+  .step-text {
+    padding: 1.5rem 1rem;
+  }
+
+  .step-image {
+    padding: 0.5rem;
+    min-height: 30vh;
+  }
+
+  .class-table {
+    font-size: 0.7rem;
+  }
+
+  .class-table th,
+  .class-table td {
+    padding: 0.3rem;
+  }
+
+  .interactive-map-widget {
+    width: 50px;
+    height: 50px;
+    top: 10px;
+    right: 12px;
+  }
+
+  .dataset-text {
+    padding: 1.5rem 1rem;
+  }
+
+  .dataset-title {
+    font-size: 1.6rem;
+  }
+
+  .dataset-desc {
+    font-size: 1rem;
+  }
+
+  .dataset-footer {
+    padding: 2.5rem 1rem;
+  }
+
+  .enhanced-btn {
+    min-width: 100%;
+    padding: 1rem 1.2rem;
+    gap: 0.8rem;
+  }
+
+  .btn-title {
+    font-size: 1rem;
+  }
+
+  .btn-subtitle {
+    font-size: 0.8rem;
+  }
+
+  .btn-icon {
+    width: 45px;
+    height: 45px;
+    font-size: 1.1rem;
+  }
+}
+
+/* Print styles */
+@media print {
+  .methods-nav {
+    display: none;
+  }
+
+  .step-split {
+    height: auto;
+    page-break-inside: avoid;
+    margin-bottom: 2rem;
+  }
+} 

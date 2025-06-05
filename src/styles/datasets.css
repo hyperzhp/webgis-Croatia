@@ -1,0 +1,321 @@
+/* ============================================
+   DATASETS PAGE STYLES
+   ============================================ */
+.datasets-page {
+  max-width: 1440px;
+  margin: 0 auto;
+  padding: 2rem 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 3rem;
+}
+
+.dataset-split {
+  display: flex;
+  align-items: center;
+  gap: 4rem;
+  padding: 2rem;
+  background: rgba(255, 255, 255, 0.5);
+  backdrop-filter: blur(10px);
+  border-radius: 20px;
+  text-decoration: none;
+  color: inherit;
+  transition: all 0.3s ease;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  position: relative;
+  overflow: hidden;
+}
+
+.dataset-split::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(135deg, var(--primary-blue) 0%, var(--primary-light) 100%);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  z-index: 1;
+  pointer-events: none;
+}
+
+.dataset-split:hover::after {
+  opacity: 0.05;
+}
+
+.dataset-split:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 15px 35px rgba(24, 100, 171, 0.1);
+  border-color: rgba(24, 100, 171, 0.2);
+}
+
+.dataset-split.reverse {
+  flex-direction: row-reverse;
+}
+
+.dataset-text {
+  flex: 1;
+  position: relative;
+  z-index: 2;
+}
+
+.dataset-title {
+  font-size: 2rem;
+  font-weight: 800;
+  margin-bottom: 1.5rem;
+  background: linear-gradient(135deg, var(--primary-blue) 0%, var(--primary-light) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.dataset-desc {
+  font-size: 1.1rem;
+  line-height: 1.8;
+  color: var(--text-secondary);
+  margin-bottom: 2rem;
+}
+
+.dataset-info {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.dataset-info li {
+  font-size: 1rem;
+  line-height: 1.6;
+  margin-bottom: 0.75rem;
+  color: var(--text-secondary);
+}
+
+.dataset-info li strong {
+  color: var(--primary-blue);
+  margin-right: 0.5rem;
+}
+
+.dataset-image {
+  flex: 1;
+  height: 400px;
+  border-radius: 15px;
+  background-size: cover;
+  background-position: center;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+  position: relative;
+  overflow: hidden;
+}
+
+.dataset-image::before {
+  content: 'View Dataset →';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%) scale(0.9);
+  background: rgba(255, 255, 255, 0.95);
+  padding: 1rem 2rem;
+  border-radius: 30px;
+  color: var(--primary-blue);
+  font-weight: 600;
+  opacity: 0;
+  transition: all 0.3s ease;
+  backdrop-filter: blur(5px);
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.dataset-split:hover .dataset-image::before {
+  opacity: 1;
+  transform: translate(-50%, -50%) scale(1);
+}
+
+.dataset-footer {
+  text-align: center;
+  padding: 2rem 0;
+}
+
+/* Enhanced buttons container */
+.enhanced-buttons-container {
+  display: flex;
+  justify-content: center;
+  gap: 2rem;
+  margin-top: 3rem;
+}
+
+.enhanced-btn {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 1rem 1.5rem;
+  background: rgba(255, 255, 255, 0.9);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 15px;
+  text-decoration: none;
+  color: var(--primary-blue);
+  transition: all 0.3s ease;
+  min-width: 250px;
+}
+
+.enhanced-btn i {
+  font-size: 1.2rem;
+  width: 24px;
+  height: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.btn-content {
+  flex: 1;
+  text-align: left;
+}
+
+.btn-title {
+  display: block;
+  font-weight: 600;
+  font-size: 1.1rem;
+  margin-bottom: 0.25rem;
+}
+
+.btn-subtitle {
+  display: block;
+  font-size: 0.85rem;
+  opacity: 0.8;
+}
+
+.enhanced-btn-primary {
+  background: linear-gradient(135deg, var(--primary-blue) 0%, var(--primary-light) 100%);
+  color: white;
+}
+
+.enhanced-btn-primary:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 10px 30px rgba(24, 100, 171, 0.3);
+}
+
+.enhanced-btn-secondary {
+  background: rgba(255, 255, 255, 0.9);
+}
+
+.enhanced-btn-secondary:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+  background: white;
+}
+
+.enhanced-btn-accent {
+  background: rgba(var(--accent-green), 0.1);
+  color: var(--accent-green);
+  border-color: rgba(var(--accent-green), 0.2);
+}
+
+.enhanced-btn-accent:hover {
+  transform: translateY(-3px);
+  background: rgba(var(--accent-green), 0.15);
+  box-shadow: 0 10px 30px rgba(var(--accent-green), 0.2);
+}
+
+/* Dark mode support */
+@media (prefers-color-scheme: dark) {
+  .enhanced-btn {
+    background: rgba(255, 255, 255, 0.1);
+    color: white;
+  }
+
+  .enhanced-btn-primary {
+    background: linear-gradient(135deg, var(--primary-blue) 0%, #1a4b7c 100%);
+  }
+
+  .enhanced-btn-secondary {
+    background: rgba(255, 255, 255, 0.1);
+  }
+
+  .enhanced-btn-secondary:hover {
+    background: rgba(255, 255, 255, 0.15);
+  }
+
+  .dataset-image::before {
+    background: rgba(44, 62, 80, 0.95);
+    color: white;
+    border-color: rgba(255, 255, 255, 0.1);
+  }
+}
+
+/* Responsive adjustments */
+@media (max-width: 991.98px) {
+  .datasets-page {
+    gap: 2rem;
+    padding: 1.5rem 1rem;
+  }
+
+  .dataset-split {
+    flex-direction: column;
+    gap: 2rem;
+    padding: 1.5rem;
+  }
+
+  .dataset-split.reverse {
+    flex-direction: column;
+  }
+
+  .dataset-image {
+    width: 100%;
+    height: 300px;
+  }
+
+  .dataset-title {
+    font-size: 1.75rem;
+  }
+
+  .enhanced-buttons-container {
+    flex-direction: column;
+    gap: 1rem;
+    padding: 0 1rem;
+  }
+
+  .enhanced-btn {
+    width: 100%;
+    min-width: 0;
+  }
+}
+
+@media (max-width: 576px) {
+  .datasets-page {
+    gap: 1.5rem;
+    padding: 1rem;
+  }
+
+  .dataset-split {
+    padding: 1rem;
+  }
+
+  .dataset-image {
+    height: 250px;
+  }
+
+  .dataset-title {
+    font-size: 1.5rem;
+  }
+
+  .dataset-desc {
+    font-size: 1rem;
+  }
+
+  .enhanced-btn {
+    padding: 0.875rem 1.25rem;
+  }
+
+  .btn-title {
+    font-size: 1rem;
+  }
+
+  .btn-subtitle {
+    font-size: 0.8rem;
+  }
+
+  .dataset-image::before {
+    padding: 0.75rem 1.5rem;
+    font-size: 0.9rem;
+  }
+} 
