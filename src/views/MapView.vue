@@ -390,7 +390,7 @@ const NO2yearlyMapLayer = new TileLayer({
     },
     serverType: 'geoserver',
   }),
-  title: 'NO₂ yearly map',
+  title: 'NO₂ yearly map DEBUG',
   visible: false,
 });
 const PM10yearlyMapLayer = new TileLayer({
