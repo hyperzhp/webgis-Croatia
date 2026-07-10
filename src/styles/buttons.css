@@ -1,0 +1,195 @@
+/* ============================================
+   ENHANCED BUTTONS STYLES
+   ============================================ */
+.dataset-footer {
+  background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+  padding: 4rem 2rem;
+  margin-top: 4rem;
+  position: relative;
+  overflow: hidden;
+}
+
+.dataset-footer::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: radial-gradient(circle at 20% 20%, rgba(24, 100, 171, 0.05) 0%, transparent 50%),
+              radial-gradient(circle at 80% 80%, rgba(124, 58, 237, 0.05) 0%, transparent 50%);
+  pointer-events: none;
+}
+
+.enhanced-buttons-container {
+  display: flex;
+  gap: 2rem;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+  max-width: 1200px;
+  margin: 0 auto;
+  position: relative;
+  z-index: 2;
+}
+
+.enhanced-btn {
+  display: flex;
+  align-items: center;
+  padding: 1.5rem 2rem;
+  border-radius: 20px;
+  text-decoration: none;
+  color: #fff;
+  font-weight: 600;
+  font-size: 1rem;
+  position: relative;
+  overflow: hidden;
+  transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+  min-width: 280px;
+  gap: 1rem;
+}
+
+.enhanced-btn::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+  transition: left 0.6s ease;
+  z-index: 1;
+}
+
+.enhanced-btn:hover::before {
+  left: 100%;
+}
+
+.enhanced-btn:hover {
+  transform: translateY(-8px) scale(1.02);
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.25);
+  text-decoration: none;
+  color: #fff;
+}
+
+.enhanced-btn:active {
+  transform: translateY(-4px) scale(1.01);
+}
+
+/* Button variants */
+.enhanced-btn-primary {
+  background: linear-gradient(135deg, #1864ab 0%, #4dabf7 100%);
+}
+
+.enhanced-btn-primary:hover {
+  background: linear-gradient(135deg, #0d4f7a 0%, #1864ab 100%);
+  color: #fff;
+}
+
+.enhanced-btn-secondary {
+  background: linear-gradient(135deg, #7c3aed 0%, #a855f7 100%);
+}
+
+.enhanced-btn-secondary:hover {
+  background: linear-gradient(135deg, #5b21b6 0%, #7c3aed 100%);
+  color: #fff;
+}
+
+.enhanced-btn-accent {
+  background: linear-gradient(135deg, #10b981 0%, #34d399 100%);
+}
+
+.enhanced-btn-accent:hover {
+  background: linear-gradient(135deg, #047857 0%, #10b981 100%);
+  color: #fff;
+}
+
+.btn-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 50px;
+  height: 50px;
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 12px;
+  font-size: 1.3rem;
+  transition: all 0.3s ease;
+  position: relative;
+  z-index: 2;
+  backdrop-filter: blur(5px);
+}
+
+.enhanced-btn:hover .btn-icon {
+  background: rgba(255, 255, 255, 0.3);
+  transform: scale(1.1) rotate(5deg);
+}
+
+.btn-content {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  text-align: left;
+  position: relative;
+  z-index: 2;
+}
+
+.btn-title {
+  font-size: 1.1rem;
+  font-weight: 700;
+  margin-bottom: 0.2rem;
+  line-height: 1.2;
+}
+
+.btn-subtitle {
+  font-size: 0.85rem;
+  opacity: 0.85;
+  font-weight: 400;
+  line-height: 1.3;
+}
+
+.btn-arrow {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 35px;
+  height: 35px;
+  background: rgba(255, 255, 255, 0.15);
+  border-radius: 50%;
+  font-size: 0.9rem;
+  transition: all 0.3s ease;
+  position: relative;
+  z-index: 2;
+}
+
+.enhanced-btn:hover .btn-arrow {
+  background: rgba(255, 255, 255, 0.25);
+  transform: translateX(5px);
+}
+
+/* Pulse animation for buttons */
+@keyframes pulse-btn {
+  0%, 100% {
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+  }
+  50% {
+    box-shadow: 0 12px 35px rgba(0, 0, 0, 0.2);
+  }
+}
+
+.enhanced-btn:nth-child(1) {
+  animation: pulse-btn 4s ease-in-out infinite;
+  animation-delay: 0s;
+}
+
+.enhanced-btn:nth-child(2) {
+  animation: pulse-btn 4s ease-in-out infinite;
+  animation-delay: 1.3s;
+}
+
+.enhanced-btn:nth-child(3) {
+  animation: pulse-btn 4s ease-in-out infinite;
+  animation-delay: 2.6s;
+} 
