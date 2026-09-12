@@ -10,12 +10,28 @@
 
     <!-- Info panel with animation -->
     <Transition name="slide-fade" mode="out-in">
-      <div v-if="activeLayerInfo && showInfoPanel" class="info-panel" :key="activeLayerInfo.title">
+      <div
+        v-if="activeLayerInfo && showInfoPanel"
+        class="info-panel"
+        :class="{ 'is-collapsed': !showInfoPanelContent }"
+        :key="activeLayerInfo.title"
+      >
         <div class="info-panel-header">
-          <h3>{{ activeLayerInfo.title }}</h3>
-          <button @click="hideInfoPanel" class="close-btn" title="Hide panel">×</button>
+          <h3 v-if="showInfoPanelContent">{{ activeLayerInfo.title }}</h3>
+          <div class="info-panel-actions">
+            <button
+              @click="toggleInfoPanelContent"
+              class="collapse-btn"
+              type="button"
+              :aria-expanded="showInfoPanelContent"
+              :aria-label="showInfoPanelContent ? 'Collapse information panel' : 'Expand information panel'"
+              :title="showInfoPanelContent ? 'Collapse information panel' : 'Expand information panel'"
+            >
+              {{ showInfoPanelContent ? '−' : '+' }}
+            </button>
+          </div>
         </div>
-        <div class="info-panel-content">
+        <div v-if="showInfoPanelContent" class="info-panel-content">
           <p><strong>Description:</strong> {{ activeLayerInfo.description }}</p>
           <p><strong>Data source:</strong> {{ activeLayerInfo.source }}</p>
           <p><strong>Year:</strong> {{ activeLayerInfo.year }}</p>
@@ -44,9 +60,38 @@
     </Transition>
 
     <div id="map"></div>
-    <div class="legend">
+    <FooterBar class="map-footer" />
+    
+    <div v-if="enabledThematicLayer" class="opacity-control">
+      <label for="layer-opacity">Layer opacity</label>
+      <input
+        id="layer-opacity"
+        v-model="thematicLayerOpacity"
+        type="range"
+        min="0"
+        max="100"
+        step="1"
+        aria-label="Layer opacity"
+        @input="updateThematicLayerOpacity"
+      />
+      <span>{{ thematicLayerOpacity }}%</span>
+    </div>
+
+    <div class="legend" :class="{ 'is-collapsed': !showLayerList }">
+      <button
+        class="collapse-btn legend-toggle-btn"
+        type="button"
+        :aria-expanded="showLayerList"
+        :aria-label="showLayerList ? 'Hide layer list' : 'Show layer list'"
+        :title="showLayerList ? 'Collapse layer list' : 'Expand layer list'"
+        @click="toggleLayerList"
+      >
+        <span aria-hidden="true">{{ showLayerList ? '−' : '+' }}</span>
+      </button>
+
       <!-- Legend with groups -->
-      <div v-for="group in layerGroups" :key="group.get('title')" class="legend-group">
+      <div v-if="showLayerList" class="legend-groups">
+        <div v-for="group in layerGroups" :key="group.get('title')" class="legend-group">
         <div class="legend-group-header">
           <!-- Expand/collapse button for all groups -->
           <button @click="toggleGroupExpansion(group)" class="expand-collapse-btn">
@@ -73,6 +118,7 @@
           </div>
         </div>
       </div>
+      </div>
     </div>
   </div>
 </template>
@@ -90,13 +136,16 @@ import TileWMS from 'ol/source/TileWMS';
 import { fromLonLat } from 'ol/proj';
 import pm10UrbanChart from '@/assets/pm10-urban-chart.png';
 import bivariateLegend from '@/assets/legend.png';
+import FooterBar from '@/components/FooterBar.vue';
 
 // Reactive variables for the information panel
 const activeLayerInfo = ref(null);
 const showInfoPanel = ref(false);
+const showInfoPanelContent = ref(true);
 
 // Reactive variables for managing group expansion
 const expandedGroups = ref(new Set(['Base Layers'])); // "Base Layers" is expanded by default
+const showLayerList = ref(true);
 
 const layerInfoData = {
   'Population exposure to NO₂ 2020': {
@@ -106,7 +155,7 @@ const layerInfoData = {
     year: '2020',
     legend: bivariateLegend
   },
-  'Population exposure to PM10 2020': {
+  'Population exposure to PM 10 2020': {
     title: 'Population Exposure to PM 10 (2020)',
     description: 'The bivariate map shows the relationship between PM10 particle concentration and population distribution in Croatia for the year 2020.',
     source: 'GIS GeoServer - Politecnico di Milano',
@@ -120,19 +169,19 @@ const layerInfoData = {
     year: '2020',
     legend: bivariateLegend
   },
-  'NO₂ yearly map': {
-    title: 'Annual Mean NO₂ Concentration Map',
-    description: 'Map showing the distribution of annual mean nitrogen dioxide concentration across Croatia with a selectable year range from 2013 to 2022.',
-    source: 'GIS GeoServer - Politecnico di Milano',
-    year: 'Variable (2013–2022)',
-    legend: [
-      { color: '#e8f4fd', label: 'Level 1: ≤ 10 µg/m³' },
-      { color: '#b3d9f7', label: 'Level 2: >10 and ≤ 25 µg/m³' },
-      { color: '#ffcc80', label: 'Level 3: >25 and ≤ 40 µg/m³' },
-      { color: '#ff8a65', label: 'Level 4: >40 and ≤ 50 µg/m³' },
-      { color: '#d32f2f', label: 'Level 5: >50 µg/m³' }
-    ]
-  },
+  // 'NO₂ yearly map': {
+  //   title: 'Annual Mean NO₂ Concentration Map',
+  //   description: 'Map showing the distribution of annual mean nitrogen dioxide concentration across Croatia with a selectable year range from 2013 to 2022.',
+  //   source: 'GIS GeoServer - Politecnico di Milano',
+  //   year: 'Variable (2013–2022)',
+  //   legend: [
+  //     { color: '#e8f4fd', label: 'Level 1: ≤ 10 µg/m³' },
+  //     { color: '#b3d9f7', label: 'Level 2: >10 and ≤ 25 µg/m³' },
+  //     { color: '#ffcc80', label: 'Level 3: >25 and ≤ 40 µg/m³' },
+  //     { color: '#ff8a65', label: 'Level 4: >40 and ≤ 50 µg/m³' },
+  //     { color: '#d32f2f', label: 'Level 5: >50 µg/m³' }
+  //   ]
+  // },
   'PM 10 yearly map': {
     title: 'Annual Mean PM10 Concentration Map',
     description: 'Map showing the distribution of annual mean PM10 particle concentration across Croatia with a selectable year range from 2013 to 2022.',
@@ -216,6 +265,7 @@ const layerInfoData = {
 // Функция для показа информации о слое
 function showLayerInfo(layerTitle) {
   if (layerInfoData[layerTitle]) {
+    showInfoPanelContent.value = true;
     // Если панель уже показана, сначала скрываем её
     if (showInfoPanel.value) {
       showInfoPanel.value = false;
@@ -231,12 +281,8 @@ function showLayerInfo(layerTitle) {
   }
 }
 
-// Функция для скрытия информационной панели
-function hideInfoPanel() {
-  showInfoPanel.value = false;
-  setTimeout(() => {
-    activeLayerInfo.value = null;
-  }, 300); // Задержка для завершения анимации
+function toggleInfoPanelContent() {
+  showInfoPanelContent.value = !showInfoPanelContent.value;
 }
 
 // Функции для управления раскрытием групп
@@ -253,6 +299,10 @@ function toggleGroupExpansion(group) {
 
 function isGroupExpanded(group) {
   return expandedGroups.value.has(group.get('title'));
+}
+
+function toggleLayerList() {
+  showLayerList.value = !showLayerList.value;
 }
 
 // Базовые слои
@@ -276,9 +326,9 @@ satelliteLayer.set('color', '#33a02c');
 
 const BivariateLayerNO2 = new TileLayer({
   source: new TileWMS({
-    url: 'https://www.gis-geoserver.polimi.it/geoserver/gisgeoserver_04/wms',
+    url: 'https://204.216.218.134.sslip.io/geoserver/Croatia/wms',
     params: {
-      LAYERS: 'gisgeoserver_04:Croatia_no2_2020_bivariate',
+      LAYERS: 'Croatia:Croatia_no2_2020_bivariate',
       TILED: true,
       FORMAT: 'image/png',
       TRANSPARENT: true,
@@ -290,9 +340,9 @@ const BivariateLayerNO2 = new TileLayer({
 });
 const BivariateLayerPM10 = new TileLayer({
   source: new TileWMS({
-    url: 'https://www.gis-geoserver.polimi.it/geoserver/gisgeoserver_04/wms',
+    url: 'https://204.216.218.134.sslip.io/geoserver/Croatia/wms',
     params: {
-      LAYERS: 'gisgeoserver_04:Croatia_pm10_2020_bivariate',
+      LAYERS: 'Croatia:Croatia_pm10_2020_bivariate',
       TILED: true,
       FORMAT: 'image/png',
       TRANSPARENT: true,
@@ -304,9 +354,9 @@ const BivariateLayerPM10 = new TileLayer({
 });
 const BivariateLayerPM2p5 = new TileLayer({
   source: new TileWMS({
-    url: 'https://www.gis-geoserver.polimi.it/geoserver/gisgeoserver_04/wms',
+    url: 'https://204.216.218.134.sslip.io/geoserver/Croatia/wms',
     params: {
-      LAYERS: 'gisgeoserver_04:Croatia_pm2p5_2020_bivariate',
+      LAYERS: 'Croatia:Croatia_pm2p5_2020_bivariate',
       TILED: true,
       FORMAT: 'image/png',
       TRANSPARENT: true,
@@ -314,13 +364,13 @@ const BivariateLayerPM2p5 = new TileLayer({
     serverType: 'geoserver',
   }),
   title: 'Population exposure to PM 2.5 2020',
-  visible: true,
+  visible: false,
 });
 const AADPM10 = new TileLayer({
   source: new TileWMS({
-    url: 'https://www.gis-geoserver.polimi.it/geoserver/gisgeoserver_04/wms',
+    url: 'https://204.216.218.134.sslip.io/geoserver/Croatia/wms',
     params: {
-      LAYERS: 'gisgeoserver_04:Croatia_pm10_2017-2021_AAD_map_2022',
+      LAYERS: 'Croatia:Croatia_pm10_2017-2021_AAD_map_2022',
       TILED: true,
       FORMAT: 'image/png',
       TRANSPARENT: true,
@@ -332,9 +382,9 @@ const AADPM10 = new TileLayer({
 });
 const AADPM2p5 = new TileLayer({
   source: new TileWMS({
-    url: 'https://www.gis-geoserver.polimi.it/geoserver/gisgeoserver_04/wms',
+    url: 'https://204.216.218.134.sslip.io/geoserver/Croatia/wms',
     params: {
-      LAYERS: 'gisgeoserver_04:Croatia_pm2p5_2017-2021_AAD_map_2022',
+      LAYERS: 'Croatia:Croatia_pm2p5_2017-2021_AAD_map_2022',
       TILED: true,
       FORMAT: 'image/png',
       TRANSPARENT: true,
@@ -346,9 +396,11 @@ const AADPM2p5 = new TileLayer({
 });
 const AADNO2 = new TileLayer({
   source: new TileWMS({
-    url: 'https://www.gis-geoserver.polimi.it/geoserver/gisgeoserver_04/wms',
+    url: 'https://204.216.218.134.sslip.io/geoserver/Croatia/wms',
     params: {
-      LAYERS: 'gisgeoserver_04:Croatia_no2 _2017-2021_AAD_map _2022',
+      // LAYERS: 'gisgeoserver_04:Croatia_no2 _2017-2021_AAD_map _2022',
+      
+      LAYERS: 'Croatia:Croatia_no2 _2017-2021_AAD_map _2022',
       TILED: true,
       FORMAT: 'image/png',
       TRANSPARENT: true,
@@ -361,9 +413,9 @@ const AADNO2 = new TileLayer({
 
 const UrbanLayer = new TileLayer({
   source: new TileWMS({
-    url: 'https://www.gis-geoserver.polimi.it/geoserver/gisgeoserver_04/wms',
+    url: 'https://204.216.218.134.sslip.io/geoserver/Croatia/wms',
     params: {
-      LAYERS: 'Urban_pollution_yearly_max_mean',
+      LAYERS: 'Croatia:Urban_pollution_yearly_max_mean',
       TILED: true,
       FORMAT: 'image/png',
       TRANSPARENT: true,
@@ -379,25 +431,25 @@ const selectedYear = ref(2022);
 // Добавляем реактивную переменную для отслеживания видимости timelapse слоев
 const isNO2YearlyVisible = ref(false); // изначально false, так как слой создается с visible: false
 
-const NO2yearlyMapLayer = new TileLayer({
-  source: new TileWMS({
-    url: 'https://www.gis-geoserver.polimi.it/geoserver/gisgeoserver_04/wms',
-    params: {
-      LAYERS: `gisgeoserver_04:Croatia_no2_concentration_map_${selectedYear.value}`,
-      TILED: true,
-      FORMAT: 'image/png',
-      TRANSPARENT: true,
-    },
-    serverType: 'geoserver',
-  }),
-  title: 'NO₂ yearly map DEBUG',
-  visible: false,
-});
+// const NO2yearlyMapLayer = new TileLayer({
+//   source: new TileWMS({
+//     url: 'https://204.216.218.134.sslip.io/geoserver/Croatia/wms',
+//     params: {
+//       LAYERS: `Croatia:Croatia_no2_concentration_map_${selectedYear.value}`,
+//       TILED: true,
+//       FORMAT: 'image/png',
+//       TRANSPARENT: true,
+//     },
+//     serverType: 'geoserver',
+//   }),
+//   title: 'NO₂ yearly map',
+//   visible: false,
+// });
 const PM10yearlyMapLayer = new TileLayer({
   source: new TileWMS({
-    url: 'https://www.gis-geoserver.polimi.it/geoserver/gisgeoserver_04/wms',
+    url: 'https://204.216.218.134.sslip.io/geoserver/Croatia/wms',
     params: {
-      LAYERS: `gisgeoserver_04:Croatia_concentration_map_pm10_${selectedYear.value}`,
+      LAYERS: `Croatia:Croatia_pm10_concentration_map_${selectedYear.value}`,
       TILED: true,
       FORMAT: 'image/png',
       TRANSPARENT: true,
@@ -409,9 +461,9 @@ const PM10yearlyMapLayer = new TileLayer({
 });
 const PM2p5yearlyMapLayer = new TileLayer({
   source: new TileWMS({
-    url: 'https://www.gis-geoserver.polimi.it/geoserver/gisgeoserver_04/wms',
+    url: 'https://204.216.218.134.sslip.io/geoserver/Croatia/wms',
     params: {
-      LAYERS: `gisgeoserver_04:Croatia_pm2p5_concentration_map_${selectedYear.value}`,
+      LAYERS: `Croatia:Croatia_pm2p5_concentration_map_${selectedYear.value}`,
       TILED: true,
       FORMAT: 'image/png',
       TRANSPARENT: true,
@@ -424,16 +476,16 @@ const PM2p5yearlyMapLayer = new TileLayer({
 
 function updateYear() {
 
-  NO2yearlyMapLayer.getSource().updateParams({
-    LAYERS: `gisgeoserver_04:Croatia_no2_concentration_map_${selectedYear.value}`,
-  });
+  // NO2yearlyMapLayer.getSource().updateParams({
+  //   LAYERS: `Croatia:Croatia_no2_concentration_map_${selectedYear.value}`,
+  // });
 
   PM10yearlyMapLayer.getSource().updateParams({
-    LAYERS: `gisgeoserver_04:Croatia_concentration_map_pm10_${selectedYear.value}`,
+    LAYERS: `Croatia:Croatia_pm10_concentration_map_${selectedYear.value}`,
   });
 
   PM2p5yearlyMapLayer.getSource().updateParams({
-    LAYERS: `gisgeoserver_04:Croatia_pm2p5_concentration_map_${selectedYear.value}`,
+    LAYERS: `Croatia:Croatia_pm2p5_concentration_map_${selectedYear.value}`,
   });
 }
 
@@ -460,7 +512,7 @@ const bivariateGroup = new LayerGroup({
 
 const YearlyConcentrationMapsGroup = new LayerGroup({
   layers: [
-    NO2yearlyMapLayer,
+    // NO2yearlyMapLayer,
     PM10yearlyMapLayer,
     PM2p5yearlyMapLayer
   ],
@@ -495,6 +547,9 @@ const layerGroups = ref([
   OtherGroup
 ]);
 
+const enabledThematicLayer = ref(null);
+const thematicLayerOpacity = ref(100);
+
 let map = null;
 
 // Геодезические координаты границ Хорватии (долгота, широта)
@@ -523,6 +578,14 @@ const croatiaCenterGeod = [15.919098992526344, 45.10343711219004];
 const croatiaCenter = fromLonLat(croatiaCenterGeod); // Конвертация в Web Mercator
 
 onMounted(() => {
+  enabledThematicLayer.value = layerGroups.value
+    .filter(group => group.get('title') !== 'Base Layers')
+    .flatMap(group => group.getLayers().getArray())
+    .find(layer => layer.getVisible()) || null;
+  thematicLayerOpacity.value = enabledThematicLayer.value
+    ? Math.round(enabledThematicLayer.value.getOpacity() * 100)
+    : 100;
+
   map = new Map({
     target: 'map',
     layers: [
@@ -544,7 +607,7 @@ onMounted(() => {
   });
 
   // 显示活动图层信息
-  showLayerInfo('Population exposure to PM10 2020');
+  showLayerInfo('Population exposure to PM 10 2020');
   console.log('地图和图层组已初始化', map);
 });
 
@@ -585,6 +648,8 @@ function selectThematicLayer(selectedLayer) {
 
   // Показываем только выбранный слой
   selectedLayer.setVisible(true);
+  enabledThematicLayer.value = selectedLayer;
+  thematicLayerOpacity.value = Math.round(selectedLayer.getOpacity() * 100);
 
   // Обновляем состояние временного слайдера
   isNO2YearlyVisible.value = checkIfAnyTimeLayerVisible();
@@ -595,10 +660,14 @@ function selectThematicLayer(selectedLayer) {
   map?.render();
 }
 
+function updateThematicLayerOpacity() {
+  enabledThematicLayer.value?.setOpacity(Number(thematicLayerOpacity.value) / 100);
+  map?.render();
+}
+
 function checkIfAnyTimeLayerVisible() {
   return (
-    // NO2yearlyLayer.getVisible() ||
-    NO2yearlyMapLayer.getVisible() ||
+    // NO2yearlyMapLayer.getVisible() ||
     PM10yearlyMapLayer.getVisible() ||
     PM2p5yearlyMapLayer.getVisible()
   );
@@ -609,10 +678,12 @@ function checkIfAnyTimeLayerVisible() {
 /* Базовые стили */
 #map_and_legend_container {
   position: fixed;
-  top: 0;
+  top: var(--navbar-height);
   left: 0;
   right: 0;
   bottom: 0;
+  /* width: 100vw;
+  max-width: none; */
   overflow: hidden;
   z-index: 1;
 }
@@ -621,11 +692,30 @@ function checkIfAnyTimeLayerVisible() {
   width: 100%;
   height: 100%;
   position: relative;
-  background: rgba(20, 255, 255, 0.95);
+  /* background: rgba(20, 255, 255, 0.95); */
+}
+
+.map-footer {
+  position: absolute;
+  left: 50%;
+  bottom: 8px;
+  transform: translateX(-50%);
+  z-index: 1000;
+  padding: 3px 20px;
+  color: rgba(255, 255, 255, 1);
+  background: rgba(0, 0, 0, 0.25);
+  font-size: 12px;
+  line-height: 1.2;
+  white-space: nowrap;
+}
+
+.map-footer a {
+  color: rgba(255, 255, 255, 0.8);
 }
 
 /* Стили для легенды с группами */
 .legend {
+  --collapse-control-size: 30px;
   position: absolute;
   top: 74px;
   right: 10px;
@@ -633,10 +723,11 @@ function checkIfAnyTimeLayerVisible() {
   padding: 7px;
   border: 1px solid #ccc;
   border-radius: 8px;
+  box-sizing: border-box;
   max-width: 320px;
   z-index: 1000;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-  max-height: 85vh;
+  max-height: calc(100% - 84px);
   overflow-y: auto;
 }
 
@@ -658,6 +749,26 @@ function checkIfAnyTimeLayerVisible() {
 .legend {
   scrollbar-width: thin;
   scrollbar-color: #bbb transparent;
+}
+
+.legend.is-collapsed {
+  padding: 0;
+}
+
+.legend-toggle-btn {
+  display: flex;
+  width: var(--collapse-control-size);
+  height: var(--collapse-control-size);
+  padding: 0;
+  margin: 0 0 7px auto;
+}
+
+.legend.is-collapsed .legend-toggle-btn {
+  margin: 0;
+}
+
+.legend-toggle-btn:hover {
+  background: #d0d0d0;
 }
 
 .legend-group {
@@ -793,8 +904,8 @@ function checkIfAnyTimeLayerVisible() {
 
 .time-slider {
   position: absolute;
-  bottom: 20px;
-  /* Размещаем внизу карты */
+  top: 15px;
+  /* Размещаем вверху карты */
   left: 50%;
   /* Позиционируем по центру */
   transform: translateX(-50%);
@@ -830,6 +941,7 @@ function checkIfAnyTimeLayerVisible() {
   background: #e9ecef;
   outline: none;
   -webkit-appearance: none;
+  appearance: none;
   vertical-align: middle;
   /* Выравнивание по вертикали */
   margin: 0;
@@ -876,14 +988,85 @@ function checkIfAnyTimeLayerVisible() {
   justify-content: center;
 }
 
+.opacity-control {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  z-index: 1000;
+  background: rgba(255, 255, 255, 0.95);
+  padding: 12px 14px;
+  border-radius: 25px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  backdrop-filter: blur(10px);
+  min-width: 250px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+}
+
+.opacity-control label {
+  font-weight: 600;
+  color: #495057;
+  font-size: 14px;
+  white-space: nowrap;
+}
+
+.opacity-control span {
+  font-weight: 700;
+  color: #667eea;
+  font-size: 16px;
+  min-width: 42px;
+  text-align: right;
+}
+
+.opacity-control input[type="range"] {
+  width: 180px;
+  height: 6px;
+  border-radius: 3px;
+  background: #e9ecef;
+  outline: none;
+  -webkit-appearance: none;
+  appearance: none;
+  vertical-align: middle;
+  margin: 0;
+}
+
+.opacity-control input[type="range"]::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: #667eea;
+  cursor: pointer;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+  transition: all 0.2s ease;
+}
+
+.opacity-control input[type="range"]::-webkit-slider-thumb:hover {
+  background: #5a67d8;
+  transform: scale(1.1);
+}
+
+.opacity-control input[type="range"]::-moz-range-thumb {
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: #667eea;
+  cursor: pointer;
+  border: none;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+}
+
 /* Стили для информационной панели */
 .info-panel {
   position: absolute;
   top: 74px;
   left: 10px;
   width: 400px;
-  max-height: 80vh;
-  /* Was 60vh */
+  max-height: calc(100% - 158px);
+  box-sizing: border-box;
   background: rgba(255, 255, 255, 0.97);
   border: 1px solid #ccc;
   border-radius: 12px;
@@ -891,6 +1074,13 @@ function checkIfAnyTimeLayerVisible() {
   z-index: 1500;
   backdrop-filter: blur(10px);
   overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+.info-panel.is-collapsed {
+  width: 32px;
+  max-height: 32px;
 }
 
 .info-panel-header {
@@ -905,6 +1095,17 @@ function checkIfAnyTimeLayerVisible() {
   border-bottom: 1px solid #e0e0e0;
 }
 
+.info-panel.is-collapsed .info-panel-header {
+  padding: 0;
+  border-bottom: 0;
+}
+
+.info-panel-actions {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
 .info-panel-header h3 {
   margin: 0;
   font-size: 17px;
@@ -912,7 +1113,7 @@ function checkIfAnyTimeLayerVisible() {
   color: #222;
 }
 
-.close-btn {
+.collapse-btn {
   background: #e8e8e8;
   border: none;
   color: #555;
@@ -924,19 +1125,18 @@ function checkIfAnyTimeLayerVisible() {
   display: flex;
   align-items: center;
   justify-content: center;
-  transition: background 0.2s ease, transform 0.2s ease;
+  line-height: 1;
 }
 
-.close-btn:hover {
+.collapse-btn:hover {
   background: #d0d0d0;
-  transform: rotate(90deg);
 }
 
 .info-panel-content {
   padding: 20px;
-  max-height: calc(80vh - 80px);
   overflow-y: auto;
   overflow-x: clip;
+  min-height: 0;
 }
 
 .info-panel-content p {

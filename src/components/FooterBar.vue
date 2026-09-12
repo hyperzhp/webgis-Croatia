@@ -6,17 +6,17 @@
   </template>
   
   <style scoped>
-  .footer-bar {
+    :where(.footer-bar) {
     text-align: center;
     padding: 1rem 0;
     color: #666;
     font-size: 0.9rem;
   }
-  .footer-bar a {
+    :where(.footer-bar a) {
     color: #1976d2;
     text-decoration: none;
   }
-  .footer-bar a:hover {
+    :where(.footer-bar a:hover) {
     text-decoration: underline;
   }
   </style>

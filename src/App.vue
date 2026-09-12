@@ -1,5 +1,5 @@
 <template>
-  <div id="app-shell">
+  <div id="app-shell" :class="{ 'map-route': route.name === 'webgis' }">
     <!-- App Loading Overlay -->
     <div class="app-loading-overlay" :class="{ fade: !isLoading }">
       <div class="loading-spinner">
@@ -27,7 +27,7 @@
     </main>
 
     <!-- Footer -->
-    <FooterBar />
+    <FooterBar v-if="route.name !== 'webgis'" />
 
     <!-- Global App Overlays -->
     <div class="app-overlays">
@@ -93,6 +93,7 @@ const scrollToTop = () => {
 // Route loading indicator
 watch(() => route.path, async () => {
   isRouteLoading.value = true
+  document.body.style.overflow = route.name === 'webgis' ? 'hidden' : ''
   await nextTick()
   setTimeout(() => {
     isRouteLoading.value = false
@@ -130,6 +131,8 @@ const getNotificationIcon = (type) => {
 
 // Initialize app
 onMounted(() => {
+  document.body.style.overflow = route.name === 'webgis' ? 'hidden' : ''
+
   // Initialize navbar functionality
   if (window.NavBarState) {
     window.NavBarState.init()
@@ -149,6 +152,7 @@ onMounted(() => {
 
 onUnmounted(() => {
   window.removeEventListener('scroll', handleScroll)
+  document.body.style.overflow = ''
 })
 </script>
 
@@ -158,7 +162,7 @@ onUnmounted(() => {
    ============================================ */
 :root {
   /* Navbar heights */
-  --navbar-height: 90px;
+  --navbar-height: 85px;
   --navbar-height-scrolled: 70px;
 
   /* Colors */
@@ -303,6 +307,30 @@ body::before {
   overflow-x: hidden;
 }
 
+.map-route {
+  height: 100vh;
+  overflow: hidden;
+}
+
+.map-route .site-main {
+  min-height: 0;
+  height: calc(100vh - var(--navbar-height));
+  overflow: hidden;
+}
+
+.map-route .page-container {
+  width: 100%;
+  max-width: none;
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+  box-shadow: none;
+  backdrop-filter: none;
+}
+
 .page-container {
   flex: 1;
   width: 100%;
@@ -310,7 +338,7 @@ body::before {
   z-index: 2;
   margin: 0 auto;
   padding: 2rem 1rem;
-  max-width: 1440px;
+  /* max-width: 1440px; */
   background: rgba(255, 255, 255, 0.7);
   backdrop-filter: blur(10px);
   border-radius: 20px;
