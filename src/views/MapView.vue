@@ -573,7 +573,7 @@ const croatiaExtentFromCoords = [
 ];
 
 // Центр Хорватии в Web Mercator
-const croatiaCenterGeod = [15.919098992526344, 45.10343711219004];
+const croatiaCenterGeod = [16.468486534176265, 44.46634017465942];
 
 const croatiaCenter = fromLonLat(croatiaCenterGeod); // Конвертация в Web Mercator
 
